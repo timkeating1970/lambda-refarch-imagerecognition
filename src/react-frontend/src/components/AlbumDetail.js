@@ -8,6 +8,7 @@ import * as subscriptions from '../graphql/subscriptions'
 import { Auth } from "aws-amplify";
 import { PhotoList, S3ImageUpload } from "./PhotoList";
 
+
 export const AlbumDetails = (props) => {
 	const [album, setAlbum] = useState({ name: 'Loading...', photos: [] })
 	const [photos, setPhotos] = useState([])
@@ -39,7 +40,7 @@ export const AlbumDetails = (props) => {
 				{ owner: user.username })).subscribe({
 					next: (data) => {
 						const photo = data.value.data.onCreatePhoto
-						if (photo.albumId !== props.id) return
+						if (photo == null || photo.albumId !== props.id) return
 						setPhotos(p => p.concat([photo]))
 
 						setProcessingStatuses((prevState => {
@@ -67,6 +68,7 @@ export const AlbumDetails = (props) => {
 				{ owner: user.username })).subscribe({
 					next: (data) => {
 						const photo = data.value.data.onUpdatePhoto
+						if (photo == null) return
 						if (photo.albumId !== props.id) return
 						setPhotos(p => {
 							let newPhotos = p.slice()

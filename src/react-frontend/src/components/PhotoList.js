@@ -6,9 +6,12 @@ import {Card, Label, Divider, Form, Dimmer, Loader, Message} from 'semantic-ui-r
 import {v4 as uuid} from 'uuid';
 import * as mutations from '../graphql/mutations'
 import AWSConfig from '../aws-exports'
-import {Auth} from "aws-amplify";
-import Storage from '@aws-amplify/storage'
+import Amplify, { Auth, Storage } from 'aws-amplify';
 import API, {graphqlOperation} from "@aws-amplify/api";
+
+Amplify.configure(AWSConfig);
+Auth.configure(AWSConfig);
+Storage.configure(AWSConfig);
 
 export const S3ImageUpload = (props) => {
   const [uploading, setUploading] = useState(false)
